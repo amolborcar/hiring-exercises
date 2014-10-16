@@ -38,11 +38,31 @@ def match_records
 end
 
 def match_phone(input_rows)
-  # use regex to extract 10 digit phone number, excluding special chars
   puts "You matched phone!"
+  id_counter = 1
+  phones = {}
 
+  input_rows.each do |row|
+    # This regex will match the final 10 digits, excluding special characters and will delete an optional 1 at the beginning
+    if row['Phone'] != nil
+      phone_digits = row['Phone'].match(/^([0-9]{0,1})[ .-]?\(?([0-9]{3})\)?[ .-]?([0-9]{3})[ .-]?([0-9]{4})$/).captures[1..3].join('')
+    else
+      phone_digits = nil
+    end
+
+    if !phones.has_key?(phone_digits)
+      phones[phone_digits] = id_counter
+      row['id'] = phones[phone_digits]
+      id_counter += 1
+    else
+      row['id'] = phones[phone_digits]
+    end
+  end
+
+  return input_rows
 
 end
+
 
 def match_email(input_rows)
   puts "You matched email!"
