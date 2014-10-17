@@ -1,12 +1,11 @@
 require 'csv'
 
 class RecordMatcher
+
   def match_records
     inputs = []
     puts "Please enter the .csv file you want to analyze."
     file = check_for_valid_csv_file
-
-    # read in file to array
     CSV.foreach(file, :headers => true) do |row|
       inputs << row.to_hash
     end
@@ -113,7 +112,7 @@ private
         output_file << row.values.rotate(-1)
       end
     end
-    puts "Success! File outputted to #{Dir.pwd}/output.csv"
+    puts "Success! Output file created as #{Dir.pwd}/output.csv"
   end
 end
 
